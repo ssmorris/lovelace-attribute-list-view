@@ -10,10 +10,14 @@ class AttributeListView extends HTMLElement {
     }
 
     const entityId = this.config.entity;
-	const attributeId = this.config.attribute;
+    const attributeId = this.config.attribute;
     const attributeValue = hass.states[entityId].attributes[attributeId];
-	const attributeString = attributeValue.map(entry => `<li>${entry}</li>`).join('');
-
+    let attributeString = "Attribute is undefined";
+    
+    if(typeof(attributeValue) != "undefined") {
+      attributeString = attributeValue.map(entry => `<li>${entry}</li>`).join('');
+    }
+    
     this.content.innerHTML = `
       <ul>${attributeString}</ul>
     `;
@@ -23,7 +27,7 @@ class AttributeListView extends HTMLElement {
     if (!config.entity) {
       throw new Error('You need to define an entity');
     }
-	if (!config.attribute) {
+    if (!config.attribute) {
       throw new Error('You need to define an attribute');
     }
     this.config = config;
